@@ -1,0 +1,6 @@
+- apache
+    - phpmyadmin
+- mysql
+    - script save // yyyymmdd_hhss.sql
+- nodejs // funkcionális teszt
+- mongodb // funkcionális teszt

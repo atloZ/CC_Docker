@@ -1,0 +1,47 @@
+version: "3.6"
+
+services: 
+  mysql:
+    container_name: mysql-container
+    image: mysql
+    volumes: 
+      - ./mysql/backups:/.tmp
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ccdatabase
+    ports:
+      - "3308:3306"
+  phpmyadmin:
+    container_name: phpmyadmin-container
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: root
+    ports:
+      - "14081:80"
+  apache:
+    container_name: apache-container
+    image: php:7.3-apache
+    restart: always
+    volumes:
+      - ./apache/htdocs:/var/www/html
+    ports:
+          - "14080:80"
+  nodejs:
+    container_name: nodeJs-container
+    build:
+      context: ./nodejs
+  mongodb:
+    image : mongo
+    container_name: mongodb-container
+    environment:
+    - PUID=1000
+    - PGID=1000
+    volumes:
+    - ./mongodb/database:/data/db
+    restart: unless-stopped
+    ports:
+    - 27017:27017
